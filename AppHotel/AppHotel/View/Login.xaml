@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppHotel.View.Login"
+             Padding="10"
+             BackgroundColor="DimGray">
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame CornerRadius="5"
+                   x:Name="frm_login"
+                   
+                   HasShadow="False"
+                   VerticalOptions="CenterAndExpand">
+
+                <StackLayout>
+                    <Label Text="Login"
+                           TextTransform="Uppercase"
+                           FontSize="Title"
+                           HorizontalTextAlignment="Center" 
+                           TextColor="White"/>
+
+                    <Label Text="E-mail:" 
+                           TextColor="LightGray"
+                           HorizontalTextAlignment="Start" />
+                    
+                    <Entry x:Name="txt_email" Placeholder="Seu email" PlaceholderColor="DimGray"/>
+       
+                    <Label Text="Senha:"
+                           TextColor="LightGray"
+                           HorizontalTextAlignment="Start"/>
+
+                    <Entry x:Name="txt_senha" Placeholder="Sua senha" IsPassword="True" PlaceholderColor="DimGray"/>
+
+                    <Button Text="Entrar" Clicked="Button_Clicked" />
+                </StackLayout>
+            </Frame>
+
+        </StackLayout>
+    </ContentPage.Content>
+
+</ContentPage>

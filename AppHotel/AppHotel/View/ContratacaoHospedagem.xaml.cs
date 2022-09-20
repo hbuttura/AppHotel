@@ -1,0 +1,82 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+using AppHotel.Model;
+
+namespace AppHotel.View
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class ContratacaoHospedagem : ContentPage
+    {
+
+        App PropriedadesApp;
+
+        public ContratacaoHospedagem()
+        {
+            InitializeComponent();
+
+            NavigationPage.SetHasNavigationBar(this, false);
+
+            PropriedadesApp = (App)Application.Current;
+
+            
+
+            pck_suites.ItemsSource = PropriedadesApp.Suites;
+
+
+
+            dtpck_checkin.MinimumDate = DateTime.Now;
+            dtpck_checkin.MaximumDate = DateTime.Now.AddMonths(6);
+
+            dtpck_ckeckout.MinimumDate = DateTime.Now.AddDays(1);
+            dtpck_ckeckout.MaximumDate = DateTime.Now.AddMonths(6).AddDays(1);
+        }
+
+        private void Button_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                App.Current.MainPage = new HospedagemCalculada()
+                {
+                    BindingContext = new Hospedagem()
+                    {
+                        QntAdultos = Convert.ToInt32(stp_adultos.Value),
+                        QntCriancas = Convert.ToInt32(stp_criancas.Value),
+                        Quarto = (Suite)pck_suites.SelectedItem,
+                        DataCheckIn = dtpck_checkin.Date,
+                        DataCheckOut = dtpck_ckeckout.Date
+                    }
+                };
+
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Ops", ex.Message, "OK");
+            }
+        }
+
+        private void dtpck_checkin_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            DatePicker elemento = (DatePicker)sender;
+
+            dtpck_ckeckout.MinimumDate = elemento.Date.AddDays(1);
+            dtpck_ckeckout.MaximumDate = elemento.Date.AddMonths(6);
+        }
+
+        private async void Button_Sair(object sender, EventArgs e)
+        {
+            bool confirme = await DisplayAlert("Quer mesmo sair?", "Sair da conta", "Sim", "Não");
+
+            if(confirme)
+            {
+                App.Current.Properties.Remove("usuario_logado");
+                App.Current.MainPage = new Login();
+            }
+        }
+    }
+}
